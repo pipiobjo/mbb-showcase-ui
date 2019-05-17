@@ -1,10 +1,11 @@
 import axios from 'axios'
 import auth from './fakeAuth'
 export default {
-  baseHost : "http://localhost:8080",
-  fetchMovieCollection() {
+  baseHost : "http://http://137.116.251.242",
+  //baseHost : "http://localhost",
+  fetchMovieCollection(name) {
     return axios
-      .get('http://localhost:8080' + '/episode', {
+      .get(this.baseHost + '/episode', {
         headers: {
           "Authorization": 'Basic ' + auth.getAuth(),
         }

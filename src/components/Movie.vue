@@ -23,8 +23,9 @@
             <div>
               <h2 class="headline mb-0">{{singleMovie.Title}}-{{singleMovie.Year}}</h2>
               <p>{{ singleMovie.Plot}} </p>
-              <h3>Actors:</h3>{{singleMovie.Actors}}
-               <h4>Awards:</h4> {{singleMovie.Awards}}
+              <h4>Name:</h4> {{singleMovie.episodeName}}
+              <h4>Overview:</h4> {{singleMovie.overview}}
+              <h4>Director:</h4>{{singleMovie.director}}
                <p>Genre: {{singleMovie.Genre}}</p>
             </div>
           </v-card-title>
@@ -60,10 +61,12 @@
                   <th>Source</th>
                   <th>Ratings</th>
                 </tr>
-                <tr v-for="(rating,index) in this.ratings" :key="index">
-                  <td align="center">{{ratings[index].Source}}</td>
-                  <td align="center"><v-rating :half-increments="true" :value="ratings[index].Value"></v-rating></td>
-                </tr>
+                <th></th>
+                <v-rating
+                v-model="ratings"
+                background-color="purple lighten-3"
+                color="purple"
+                small></v-rating>
               </table>
             </v-card-text>
             <v-divider></v-divider>
@@ -103,12 +106,7 @@ export default {
     movieApi.fetchSingleMovie(this.id)
       .then(response => {
         this.singleMovie = response
-        this.ratings = this.singleMovie.Ratings
-        this.ratings.forEach(function (element) {
-          element.Value = parseFloat(element.Value.split(/\/|%/)[0])
-          element.Value = element.Value <= 10 ? element.Value / 2 : element.Value / 20
-        }
-        )
+        this.ratings = this.singleMovie.rating
         this.loading = false
       })
       .catch(error => {
